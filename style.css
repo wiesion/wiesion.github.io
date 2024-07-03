@@ -1,0 +1,158 @@
+@font-face {
+    font-family: 'Cambria';
+    src: local('Cambria Bold Italic'), local('Cambria-BoldItalic'), url('Cambria-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cambria';
+    src: local('Cambria'), url('Cambria.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cambria';
+    src: local('Cambria Bold'), local('Cambria-Bold'), url('Cambria-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cambria';
+    src: local('Cambria Italic'), local('Cambria-Italic'), url('Cambria-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    --background-color: #242f40;
+    --foreground-color: #56cbf9;
+    --highlight-color: #dbff76;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: "Cambria", serif;
+    background: var(--background-color);
+    color: var(--foreground-color);
+    display: flex;
+    flex-direction: column;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-decoration: underline;
+    text-decoration-color: var(--foreground-color);
+}
+
+h2, h3, h4, h5, h6 {
+    color: var(--highlight-color);
+}
+
+a, a:hover, a:visited {
+    text-decoration: none;
+    color: var(--highlight-color);
+}
+
+.content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    background: var(--highlight-color);
+    padding: 1rem;
+    width: 100%;
+    box-shadow: 0 0 30px 15px #000000;
+}
+
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 1440px;
+    width: 100%;
+}
+
+footer {
+    color: var(--highlight-color);
+    text-align: center;
+    line-height: 3rem;
+    flex-shrink: 0;
+    box-shadow: 0 -3rem 3rem -3rem #000000 inset;
+}
+
+.portrait {
+    margin: 0 2rem 0 0;
+    padding: 0;
+    float: left;
+    width: 11rem;
+}
+
+.clearfix-mobile {
+    display: none;
+}
+
+.clearfix {
+    clear: both;
+}
+
+@media (min-width: 1280px) {
+    main {
+        padding: 2rem 4rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    header img {
+        height: 6rem;
+    }
+    section.right-section {
+        text-align: right;
+    }
+    section.right-section ul,
+    section.right-section ol {
+        direction: rtl;
+    }
+    .portrait {
+        margin: 0 0 0 2rem;
+        float: right;
+    }
+}
+
+@media (max-width: 1279px) {
+    main {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    header img {
+        height: 4rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .clearfix-mobile {
+        clear: both;
+        display: inherit;
+    }
+}
