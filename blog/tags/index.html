@@ -1,0 +1,37 @@
+---
+layout: default
+title: Blog Tags
+content_type: single_column
+---
+
+<section class="blog-section">
+    <h1>Blog Tags</h1>
+    <div class="blog-section-header">
+        <p>Browse posts by topic and explore articles about software development, technology insights, and project experiences.</p>
+        <p><a href="/blog/">Browse all posts</a></p>
+
+        {% assign tags = site.tags | sort %}
+        <div class="tag-cloud">
+            {% for tag in tags %}
+            <a href="#{{ tag[0] | slugify }}" class="tag" data-count="{{ tag[1] | size }}">
+                {{ tag[0] }} ({{ tag[1] | size }})
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% for tag in tags %}
+    <div class="tag-section" id="{{ tag[0] | slugify }}">
+        <h2>{{ tag[0] }}</h2>
+        <div class="tag-posts">
+            {% for post in tag[1] %}
+            {% include post-preview.html post=post show_tags=false show_excerpt=true %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</section>
+
+<div class="back-to-blog">
+    <a href="/blog/">&larr; Back to Blog</a>
+</div>

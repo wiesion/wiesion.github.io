@@ -1,0 +1,104 @@
+---
+layout: default
+content_type: single_column
+---
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.title | escape }}",
+  "description": "{{ page.excerpt | strip_html | strip_newlines | truncate: 160 | escape }}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ '/assets/img/logo.svg' | absolute_url }}",
+    "width": 512,
+    "height": 512
+  },
+  "author": {
+    "@type": "Person",
+    "name": "{{ page.author | default: site.author.name }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.title }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ '/assets/img/logo.svg' | absolute_url }}",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.date | date_to_xmlschema }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  {% if page.tags.size > 0 %}"keywords": [{% for tag in page.tags %}"{{ tag }}"{% unless forloop.last %},{% endunless %}{% endfor %}],{% endif %}
+  "url": "{{ page.url | absolute_url }}"
+}
+</script>
+
+{% assign words = content | number_of_words %}
+{% assign reading_time = words | divided_by: 180 %}
+{% if reading_time == 0 %}
+{% assign reading_time = 1 %}
+{% endif %}
+
+<article class="post">
+    <header class="post-header">
+        <h1>{{ page.title }}</h1>
+
+        <div class="post-meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>{% if page.author %} by {{ page.author }}{% endif %}
+            <span class="divider">|</span> <span class="reading-time">{{ reading_time }} min read</span>
+            {% if page.tags.size > 0 %}<span class="divider">|</span>{% for tag in page.tags %}<a href="/blog/tags/#{{ tag | slugify }}" class="tag">{{ tag }}</a>{% unless forloop.last %} {% endunless %}{% endfor %}{% endif %}
+        </div>
+
+    </header>
+
+    <div class="post-content">
+        <div id="toc-container"></div>
+
+        {% if page.github_repo %}
+        <div class="github-callout compact">
+            <div class="github-callout-header">
+                <svg class="github-icon" height="16" width="16" viewBox="0 0 16 16">
+                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                <span>Related Repository</span>
+            </div>
+            <div class="github-callout-content">
+                <a href="{{ page.github_repo }}" rel="external">{{ page.github_repo | replace: 'https://github.com/', '' }}</a>
+                {% if page.github_description %}<p>{{ page.github_description }}{% endif %}</p>
+            </div>
+        </div>
+        {% endif %}
+        
+        {{ content }}
+    </div>
+
+    <footer class="post-footer">
+        <nav class="post-nav">
+            {% if page.previous.url %}
+            <div class="prev-post">
+                <a href="{{ page.previous.url }}">&laquo; {{ page.previous.title }}</a>
+            </div>
+            {% endif %}
+            {% if page.next.url %}
+            <div class="next-post">
+                <a href="{{ page.next.url }}">{{ page.next.title }} &raquo;</a>
+            </div>
+            {% endif %}
+        </nav>
+        <div class="back-to-blog">
+            <a href="/blog/">Back to Blog</a>
+        </div>
+    </footer>
+</article>
+
+<button class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.11.0/dist/mermaid.min.js"></script>
+<script src="/assets/js/blog.js"></script>

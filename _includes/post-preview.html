@@ -1,0 +1,36 @@
+{% comment %}
+Post preview include for blog listings
+Usage: {% include post-preview.html post=post show_tags=true show_excerpt=true show_reading_time=true %}
+
+Parameters:
+- post: The post object to display
+- show_tags: Whether to display tags (default: false)
+- show_excerpt: Whether to display excerpt with read more link (default: false)
+- show_reading_time: Whether to display reading time (default: true)
+{% endcomment %}
+
+{% assign show_tags = include.show_tags | default: false %}
+{% assign show_excerpt = include.show_excerpt | default: false %}
+{% assign show_reading_time = include.show_reading_time | default: true %}
+
+<article class="post-preview">
+    <h3><a href="{{ include.post.url }}">{{ include.post.title }}</a></h3>
+    <div class="post-meta">
+        <time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: "%B %d, %Y" }}</time>{% if include.post.author %} by {{ include.post.author }}{% endif %}
+        {% if show_reading_time %}
+        {% assign words = include.post.content | number_of_words %}
+        {% assign reading_time = words | divided_by: 180 %}
+        {% if reading_time == 0 %}
+            {% assign reading_time = 1 %}
+        {% endif %}
+        <span class="divider">|</span> <span class="reading-time">{{ reading_time }} min read</span>
+        {% endif %}
+        {% if show_tags and include.post.tags.size > 0 %}<span class="divider">|</span>{% for tag in include.post.tags %}<a href="/blog/tags/#{{ tag | slugify }}" class="tag">{{ tag }}</a>{% unless forloop.last %} {% endunless %}{% endfor %}{% endif %}
+    </div>
+    {% if show_excerpt and include.post.excerpt %}
+    <div class="post-excerpt">
+        {{ include.post.excerpt }}
+        <a href="{{ include.post.url }}" class="read-more">Read more &raquo;</a>
+    </div>
+    {% endif %}
+</article>

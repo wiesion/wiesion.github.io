@@ -1,0 +1,246 @@
+/* Solaris Dark Theme for Code Blocks */
+.post-content pre {
+    background-color: #002b36;
+    color: #839496;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid #073642;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.post-content code {
+    background-color: #002b36;
+    color: #839496;
+    padding: 0.2rem 0.4rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    border: 1px solid #073642;
+}
+
+.post-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+}
+
+/* Solaris Dark Syntax Highlighting */
+.highlight { background-color: #002b36; }
+.highlight .c { color: #586e75; font-style: italic; } /* Comment */
+.highlight .err { color: #dc322f; } /* Error */
+.highlight .g { color: #839496; } /* Generic */
+.highlight .k { color: #719e07; } /* Keyword */
+.highlight .l { color: #839496; } /* Literal */
+.highlight .n { color: #839496; } /* Name */
+.highlight .o { color: #839496; } /* Operator */
+.highlight .x { color: #cb4b16; } /* Other */
+.highlight .p { color: #839496; } /* Punctuation */
+.highlight .cm { color: #586e75; font-style: italic; } /* Comment.Multiline */
+.highlight .cp { color: #719e07; } /* Comment.Preproc */
+.highlight .c1 { color: #586e75; font-style: italic; } /* Comment.Single */
+.highlight .cs { color: #719e07; font-style: italic; } /* Comment.Special */
+.highlight .gd { color: #dc322f; } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic; } /* Generic.Emph */
+.highlight .gr { color: #dc322f; } /* Generic.Error */
+.highlight .gh { color: #cb4b16; } /* Generic.Heading */
+.highlight .gi { color: #719e07; } /* Generic.Inserted */
+.highlight .go { color: #839496; } /* Generic.Output */
+.highlight .gp { color: #839496; } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold; } /* Generic.Strong */
+.highlight .gu { color: #cb4b16; } /* Generic.Subheading */
+.highlight .gt { color: #dc322f; } /* Generic.Traceback */
+.highlight .kc { color: #cb4b16; } /* Keyword.Constant */
+.highlight .kd { color: #268bd2; } /* Keyword.Declaration */
+.highlight .kn { color: #719e07; } /* Keyword.Namespace */
+.highlight .kp { color: #719e07; } /* Keyword.Pseudo */
+.highlight .kr { color: #268bd2; } /* Keyword.Reserved */
+.highlight .kt { color: #dc322f; } /* Keyword.Type */
+.highlight .ld { color: #839496; } /* Literal.Date */
+.highlight .m { color: #2aa198; } /* Literal.Number */
+.highlight .s { color: #2aa198; } /* Literal.String */
+.highlight .na { color: #839496; } /* Name.Attribute */
+.highlight .nb { color: #b58900; } /* Name.Builtin */
+.highlight .nc { color: #268bd2; } /* Name.Class */
+.highlight .no { color: #cb4b16; } /* Name.Constant */
+.highlight .nd { color: #268bd2; } /* Name.Decorator */
+.highlight .ni { color: #cb4b16; } /* Name.Entity */
+.highlight .ne { color: #cb4b16; } /* Name.Exception */
+.highlight .nf { color: #268bd2; } /* Name.Function */
+.highlight .nl { color: #839496; } /* Name.Label */
+.highlight .nn { color: #839496; } /* Name.Namespace */
+.highlight .nx { color: #839496; } /* Name.Other */
+.highlight .py { color: #839496; } /* Name.Property */
+.highlight .nt { color: #268bd2; } /* Name.Tag */
+.highlight .nv { color: #268bd2; } /* Name.Variable */
+.highlight .ow { color: #719e07; } /* Operator.Word */
+.highlight .w { color: #839496; } /* Text.Whitespace */
+.highlight .mf { color: #2aa198; } /* Literal.Number.Float */
+.highlight .mh { color: #2aa198; } /* Literal.Number.Hex */
+.highlight .mi { color: #2aa198; } /* Literal.Number.Integer */
+.highlight .mo { color: #2aa198; } /* Literal.Number.Oct */
+.highlight .sb { color: #586e75; } /* Literal.String.Backtick */
+.highlight .sc { color: #2aa198; } /* Literal.String.Char */
+.highlight .sd { color: #839496; } /* Literal.String.Doc */
+.highlight .s2 { color: #2aa198; } /* Literal.String.Double */
+.highlight .se { color: #cb4b16; } /* Literal.String.Escape */
+.highlight .sh { color: #839496; } /* Literal.String.Heredoc */
+.highlight .si { color: #2aa198; } /* Literal.String.Interpol */
+.highlight .sx { color: #2aa198; } /* Literal.String.Other */
+.highlight .sr { color: #dc322f; } /* Literal.String.Regex */
+.highlight .s1 { color: #2aa198; } /* Literal.String.Single */
+.highlight .ss { color: #2aa198; } /* Literal.String.Symbol */
+.highlight .bp { color: #268bd2; } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #268bd2; } /* Name.Variable.Class */
+.highlight .vg { color: #268bd2; } /* Name.Variable.Global */
+.highlight .vi { color: #268bd2; } /* Name.Variable.Instance */
+.highlight .il { color: #2aa198; } /* Literal.Number.Integer.Long */
+
+/* Line numbers for code blocks */
+.highlight .lineno {
+    color: #586e75;
+    background-color: #073642;
+    padding-right: 1rem;
+    padding-left: 0.5rem;
+    user-select: none;
+    border-right: 1px solid #586e75;
+    margin-right: 1rem;
+    display: inline-block;
+    text-align: right;
+    min-width: 2em;
+}
+
+/* Table-based line numbers (Rouge default) */
+.highlight table {
+    margin: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.highlight table td {
+    padding: 0;
+    border: none;
+}
+
+.highlight table .gutter {
+    background-color: #073642;
+    border-right: 1px solid #586e75;
+    padding-right: 0.75rem;
+    padding-left: 0.5rem;
+    text-align: right;
+    user-select: none;
+    width: 3em;
+}
+
+.highlight table .code {
+    padding-left: 1rem;
+    width: 100%;
+}
+
+.highlight table pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+/* Language labels for code blocks */
+.highlight {
+    position: relative;
+}
+
+/* Language-specific labels */
+.highlight.language-ruby::before { content: "Ruby"; }
+.highlight.language-javascript::before { content: "JavaScript"; }
+.highlight.language-js::before { content: "JavaScript"; }
+.highlight.language-python::before { content: "Python"; }
+.highlight.language-bash::before { content: "Bash"; }
+.highlight.language-shell::before { content: "Shell"; }
+.highlight.language-dockerfile::before { content: "Dockerfile"; }
+.highlight.language-yaml::before { content: "YAML"; }
+.highlight.language-yml::before { content: "YAML"; }
+.highlight.language-json::before { content: "JSON"; }
+.highlight.language-html::before { content: "HTML"; }
+.highlight.language-css::before { content: "CSS"; }
+.highlight.language-scss::before { content: "SCSS"; }
+.highlight.language-sass::before { content: "Sass"; }
+.highlight.language-php::before { content: "PHP"; }
+.highlight.language-java::before { content: "Java"; }
+.highlight.language-c::before { content: "C"; }
+.highlight.language-cpp::before { content: "C++"; }
+.highlight.language-csharp::before { content: "C#"; }
+.highlight.language-go::before { content: "Go"; }
+.highlight.language-rust::before { content: "Rust"; }
+.highlight.language-swift::before { content: "Swift"; }
+.highlight.language-kotlin::before { content: "Kotlin"; }
+.highlight.language-typescript::before { content: "TypeScript"; }
+.highlight.language-ts::before { content: "TypeScript"; }
+.highlight.language-sql::before { content: "SQL"; }
+.highlight.language-xml::before { content: "XML"; }
+.highlight.language-markdown::before { content: "Markdown"; }
+.highlight.language-md::before { content: "Markdown"; }
+.highlight.language-powershell::before { content: "PowerShell"; }
+.highlight.language-vim::before { content: "Vim"; }
+.highlight.language-lua::before { content: "Lua"; }
+.highlight.language-perl::before { content: "Perl"; }
+.highlight.language-r::before { content: "R"; }
+.highlight.language-matlab::before { content: "MATLAB"; }
+.highlight.language-diff::before { content: "Diff"; }
+
+/* Style for language labels */
+.highlight::before {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: #073642;
+    color: #839496;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    border: 1px solid #586e75;
+    z-index: 1;
+}
+
+/* Mermaid Diagram Styles */
+.mermaid {
+    text-align: center;
+    margin: 2rem 0;
+    background-color: rgba(86, 203, 249, 0.05);
+    border: 1px solid rgba(86, 203, 249, 0.2);
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Override Mermaid's default text styling to match blog theme */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+    fill: rgba(86, 203, 249, 0.1) !important;
+    stroke: var(--highlight-color) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .node .label {
+    color: var(--foreground-color) !important;
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 14px !important;
+}
+
+.mermaid .edgePath .path {
+    stroke: var(--highlight-color) !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .edgeLabel {
+    background-color: var(--background-color) !important;
+    color: var(--foreground-color) !important;
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 12px !important;
+}

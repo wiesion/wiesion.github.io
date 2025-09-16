@@ -1,0 +1,23 @@
+---
+layout: default
+content_type: single_column
+title: Blog
+---
+
+<section class="blog-section">
+    <h1>Blog</h1>
+    <div class="blog-section-header">
+        <p>Articles about software development, technology insights, and project experiences.</p>
+        <p><a href="/blog/tags/">Browse by tags</a></p>
+    </div>
+    
+    <div class="post-list">
+        {% for post in site.posts %}
+        {% include post-preview.html post=post show_tags=true show_excerpt=true %}
+        {% endfor %}
+        
+        {% if site.posts.size == 0 %}
+        <p>No posts yet. Check back soon!</p>
+        {% endif %}
+    </div>
+</section>

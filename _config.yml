@@ -1,0 +1,91 @@
+# Site settings
+title: "wiesion.ch - Freelance IT Services in Switzerland"
+email: "thomas@wiesion.ch"
+description: >-
+  Experienced Full-Stack Developer for Complete Solutions and Collaborative Projects 
+  with over 20 Years of Expertise
+baseurl: ""
+ignore_theme_config: true
+url: "https://wiesion.ch"
+github_username: wiesion
+linkedin_username: wiesion
+
+# SEO settings
+author:
+  name: "Thomas Wieser"
+  email: "thomas@wiesion.ch"
+  linkedin: "wiesion"
+  github: "wiesion"
+
+# Social media
+social:
+  name: "Thomas Wieser"
+  links:
+    - "https://www.linkedin.com/in/wiesion/"
+    - "https://github.com/wiesion"
+    - "https://stackoverflow.com/users/3820185/wiesion"
+
+# SEO tag settings
+logo: "/assets/img/logo.svg"
+twitter:
+  username: wiesion
+  card: summary
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Rouge configuration
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    line_numbers: false  # Set to true if you want line numbers by default
+    block:
+      line_numbers: false  # Can be overridden per block
+      start_line: 1
+
+# Plugins (GitHub Pages compatible only)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /blog/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Thomas Wieser"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Pagination
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+# Exclude from processing
+exclude:
+  - .idea/
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - docker-compose.yml
+  - Dockerfile
+  - README.md
+  - dev.bat
+  - dev.sh

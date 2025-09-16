@@ -1,1 +1,23 @@
+# IDE
+.vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.env
+
+# Agents
+.claude/
+
+# etc
+_site/
+.jekyll-cache/
+.sass-cache/
+.bundle/
+vendor/

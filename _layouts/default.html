@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+        <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+        <link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="manifest" href="/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="/browserconfig.xml">
+        <meta name="theme-color" content="#242f40">
+        <link rel="stylesheet" href="/assets/css/normalize.min.css" media="all">
+        <link rel="stylesheet" href="/assets/css/main.css" media="all">
+        <link rel="stylesheet" href="/assets/css/screen.css" media="screen">
+        <link rel="stylesheet" href="/assets/css/print.css" media="print">
+        <link rel="stylesheet" href="/assets/css/syntax.css" media="all">
+        {% seo %}
+        {% feed_meta %}
+    </head>
+    <body>
+    <div class="content">
+        <div class="site-header">
+            <div class="header-content">
+                <a href="/">
+                    <img src="/assets/img/logo.svg" alt="wiesion.ch - Freelance IT Services in Switzerland">
+                </a>
+                <nav class="main-nav"><a href="/" {% if page.url == "/" %}class="active"{% endif %}>Home</a><a href="/blog/" {% if page.url contains "/blog/" %}class="active"{% endif %}>Blog</a></nav>
+            </div>
+        </div>
+        <div class="reading-progress"></div>
+        <main class="{{ layout.content_type }}">
+            {{ content }}
+        </main>
+    </div>
+    <div class="site-footer">
+        <small>&copy;<script>document.write(new Date().getFullYear())</script> wiesion.ch | Hosted on <a href="https://github.com/wiesion/wiesion.github.io" target="_blank">GitHub</a> | Cooked with <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> </small>
+    </div>
+    </body>
+</html>
