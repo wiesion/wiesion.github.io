@@ -201,6 +201,11 @@ article.post {
     line-height: 1.6;
 }
 
+img.content-img {
+    width: 100%;
+    margin: 1em 0;
+}
+
 /* Callouts */
 .connect-callout, .github-callout {
     background: #f0f8ff;

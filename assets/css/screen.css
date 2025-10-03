@@ -428,6 +428,11 @@ main {
     font-size: 0.9rem;
 }
 
+img.content-img {
+    width: 100%;
+    margin: 1em 0;
+}
+
 /* Reading Progress Bar */
 .reading-progress {
     position: sticky;
