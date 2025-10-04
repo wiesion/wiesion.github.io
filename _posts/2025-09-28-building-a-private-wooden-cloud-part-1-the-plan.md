@@ -21,7 +21,7 @@ If you're a **business owner** seeking someone who understands both software and
 
 ## Why Upgrade?
 
-My current setup has served me well: a Topton SoC with an Intel Celeron N5105, 32GB RAM, and a mix of HDDs and SSDs running Proxmox VE. It handles basic routing, NAS duties, and services like Plex with transcoding, Nextcloud, and AdGuard without breaking a sweat.
+My current setup has served me well: a [Topton SoC with an Intel Celeron N5105](https://www.toptonpc.com/product/n5105-nas-motherboard-mini-itx-industrial-17x17cm-soft-routing-intel-i226-2-5gbps-4lan-2m-2-nvme-6sata3-0-hdmi2-0-dp), 32GB RAM, and a mix of HDDs and SSDs running Proxmox VE. It handles basic routing, NAS duties, and services like Plex with transcoding, Nextcloud, and AdGuard without breaking a sweat.
 
 However, as I transition back to full-time freelancing—balancing client work with personal projects and continuous learning—I need more than "good enough." I need:
 
@@ -62,33 +62,100 @@ Since this infrastructure lives in my home rather than a data center, I've set p
 After evaluating various options, here's what I selected:
 
 ### About That "Wooden Cloud"
+- Fractal Design Node 304 case (retained and modified)
+- Xilence I404T CPU cooler with be quiet! 92mm fan
 
-Here's the fun part: I've wrapped my Fractal Design Node 304 Case in white faux-wood vinyl. Since the side vents aren't necessary with my power target and cooling design, I've noise-isolated them, and the foil gives the case a furniture-like appearance. It sits in my living room looking like a decorative piece rather than a server. In situ photography will follow once the project is operational and in place in the living room, for now a scenic picture from my balcony:
+Here's the fun part: I've wrapped my Fractal Design Node 304 Case in white faux-wood vinyl. Since the side vents aren't necessary with my power target and cooling design, I've noise-isolated them, and the foil gives the case a furniture-like appearance. It sits in my living room looking like a decorative piece rather than a server. The top-down CPU cooler from Xilence will provide a bit of airflow over otherwise-shielded components.
 
 ![image](/assets/pic/2025-09/nas_wooden_node304.jpg){: class="content-img" alt="The Fractal Node 304 with white faux-wood vinyl wrap, photographed on my balcony in the swiss mountains."}
 
 ### Core Components (~700 CHF)
 
 **Processing & Memory**
-- Topton NAS SoC with Intel i5-12450H (4P+4E cores, 45W PL1)
+- [Topton NAS SoC with Intel i5-12450H](https://www.toptonpc.com/product/i5-12450h-6-bay-nas-motherboard-8505-max-6nvme-6sata3-0-1pciex4-4intel-i226-v-2-5g-2ddr5-firewall-pc-mini-itx-mainboard) (4P+4E cores, 45W PL1)
 - 96GB DDR5-5600 (2× 48GB Crucial SO-DIMMs)
 
 The 12th-gen i5 provides an excellent balance: four performance cores with hyperthreading for demanding tasks, plus four efficiency cores for less demanding services. I'll limit package power to 45W initially (this CPU can burst up to its PL2 of 95W), potentially lowering it to ~30W after testing with Suricata IDS.
 
-**Power & Cooling**
+**Power**
+- APC BX950MI 950VA/520W UPS, provides 15-30 minutes backup
 - Seasonic PRIME 600 Titanium Fanless PSU (retained from previous build)
-- Fractal Design Node 304 case (retained and modified)
-- Xilence I404T CPU cooler with be quiet! 92mm fan
+
+The APC UPS protects the modem, server, network switch, and PoE injector (with it the WiFi 6E AP) from power interruptions. With USB monitoring connected to the server, it triggers an automatic graceful shutdown before battery depletion. This partnership with the power-loss-protected Micron SSDs ensures data integrity—even without ECC RAM, the combination of UPS automated shutdown and PLP prevents corruption from unexpected power loss.
+
+```mermaid
+graph LR
+    Wall[Wall Outlet] -->|AC Power| UPS[APC BX950MI UPS]
+    UPS -->|Power| WAN[Modem]
+    UPS -->|Power| Server[Topton N15]
+    UPS -->|Power| Switch[DMS-105 Switch]
+    UPS -->|Power| PoE[PoE Injector]
+    UPS -.->|USB Monitoring| Server
+```
+
+The Seasonic unit remains one of the finest PSUs ever manufactured—still relevant despite its 2019 vintage. Its fanless design contributes zero noise to the system, while the Titanium efficiency rating (94%+ across the load range) minimizes heat output and power waste.
 
 ![image](/assets/pic/2025-09/nas_prime_fanless.jpg){: class="content-img" alt="Seasonic's Flagship Prime 600 Titanium Fanless"}
 
-The Seasonic unit remains one of the finest PSUs ever manufactured—still relevant despite its 2019 vintage. The top-down CPU cooler will provide a bit of airflow over otherwise-shielded components.
+**Networking**
+- 4× 2.5GbE Intel i226-V NICs (integrated on the SoC)
+- D-Link DMS-105 5-Port 2.5GbE Unmanaged Switch
 
-**Connectivity Adapters**
-- 2× U.2 adapters (PCIe x4, M.2 x4)
-- 3× U.2 cables
+```mermaid
+graph TB
+    subgraph Internet
+        ISP[ISP Modem]
+    end
+    
+    subgraph Server["Topton N15 SoC"]
+        NIC1[NIC 1: WAN]
+        NIC2[NIC 2: LAN]
+        NIC3[NIC 3: GitLab VM]
+        NIC4[NIC 4: Host/Services]
+        
+        subgraph VMs["VMs / LXCs"]
+            OPNsense[OPNsense VM]
+            GitLab[GitLab VM]
+            Services[Plex/Nextcloud/Victoria LXCs]
+        end
+    end
+    
+    subgraph Network["Home Network"]
+        Switch[D-Link DMS-105<br/>5-Port 2.5GbE Switch]
+        RemoteSwitch[Switch in Another Room]
+        PoE[PoE Injector]
+        AP[WiFi 6E AP]
+    end
+    
+    ISP <--->|1 GbE| NIC1
+    NIC1 -.-|Passthrough| OPNsense
+    OPNsense -.-|Passthrough| NIC2
+    NIC2 <--->|2.5 GbE| Switch
+    NIC3 -.-|Passthrough| GitLab
+    NIC3 <--->|2.5 GbE| Switch
+    NIC4 -.-|Shared| Services
+    NIC4 <--->|2.5 GbE| Switch
+    
+    Switch <--->|2.5 GbE| RemoteSwitch
+    Switch <--->|2.5 GbE| PoE
+    PoE <--->|2.5GbE PoE| AP
+```
+
+The board integrates 4x 2.5GbE ports using Intel i226-V NICs, similar to my previous Topton SoC from 2021. Two ports (WAN/LAN) pass through to the OPNsense VM, one to the GitLab VM, and the fourth is shared between the host and remaining services.
+
+The i226-V and its predecessor i225-V are notoriously buggy. Disabling Energy Efficient Ethernet (EEE) and Active State Power Management (ASPM) usually resolves stability issues, but if problems persist, I'll fall back to VirtIO passthrough instead of hardware passthrough.
+
+The D-Link switch connects to a switch in another room and the PoE converter for the WiFi 6E AP. It's compact and power-efficient, fitting well into this low-power build.
+
+**Connectivity & Adapters**
+- 2× U.2 adapters (PCIe x4, M.2 x4 to SFF-8643)
+- 3× SFF-8643 to U.2 cables (with SATA power)
 - 2× PCI low-profile brackets for 2.5" drive mounting
 - Miscellaneous brackets and cables
+
+The board provides one SFF-8643 connector at PCIe 3.0 x4. To connect all three U.2 drives, I'm adding two more SFF-8643 connectors using a PCIe x4-to-SFF adapter and an M.2-to-SFF adapter in the PCIe 4.0 x4 slot and M.2 PCIe 4.0 x4 slot respectively.
+
+Although two drives could run at Gen4 speeds, I'll force all lanes down to PCIe 3.0 in the BIOS to ensure uniform performance across the raidz1 array. PCIe 3.0 x4 provides ~3.5 GB/s per drive, which is more than sufficient for this workload.
 
 ### Storage Configuration (~1'400 CHF)
 
@@ -180,7 +247,7 @@ Metrics will be retained on the raidz1 array for 4 weeks before truncation, whil
 
 ```mermaid
 graph LR
-    subgraph ECORES["2 E-cores (pinned)"]
+    subgraph ECORES["2 E-cores (shared)"]
         E1[E-core 9]
         E2[E-core 10]
     end
@@ -188,6 +255,7 @@ graph LR
     ECORES -->|768 cpuunits| PLEX[Plex]
     ECORES -->|768 cpuunits| NC[Nextcloud]
     ECORES -->|512 cpuunits| MM[Mattermost]
+    
 ```
 
 These three services will share two E-cores using CPU pinning and proportional scheduling:
