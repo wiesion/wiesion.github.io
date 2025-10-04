@@ -48,7 +48,7 @@ Since this infrastructure lives in my home rather than a data center, I've set p
 - Backed by an APC UPS supporting modem, NAS, and WiFi 6E AP
 
 **Financial Constraints**
-- System build (excluding storage): under 1,000 CHF
+- System build (excluding storage): under 1'000 CHF
 - Leverage existing 2.5GbE infrastructure
 - Reuse proven components (PSU and case)
 

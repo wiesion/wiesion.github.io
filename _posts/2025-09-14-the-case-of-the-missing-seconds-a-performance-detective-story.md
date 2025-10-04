@@ -91,8 +91,8 @@ Even after receiving all the data, the application took an unusually long time t
 
 I also discovered that background services were running expensive stored procedures every few seconds:
 
-- One procedure consuming 42,000 database reads per execution
-- Another generating 20,000 reads with high CPU usage
+- One procedure consuming 42'000 database reads per execution
+- Another generating 20'000 reads with high CPU usage
 - These running continuously, even on the test system
 
 While these background processes were resource-intensive, the SQL Server hardware was handling them without issue - confirming that even under this additional load, the database layer wasn't the bottleneck.

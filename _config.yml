@@ -1,9 +1,13 @@
 # Site settings
-title: "wiesion.ch - Freelance IT Services in Switzerland"
+title: "wiesion.ch - Software Engineering eastern Switzerland & Zurich area"
+description: "Senior software engineer in Switzerland specializing in backend development, PostgreSQL optimization, and scalable web applications. 20+ years building production systems."
+
+title_de: "wiesion.ch - Software-Entwicklung Ostschweiz"
+description_de: "Erfahrener Freelance-Entwickler in der Ostschweiz: Web-Anwendungen, Datenbank-Optimierung, Full-Stack-Entwicklung. Für KMU und Entwicklungsteams. 20+ Jahre Expertise."
+
+lang: en
+
 email: "thomas@wiesion.ch"
-description: >-
-  Experienced Full-Stack Developer for Complete Solutions and Collaborative Projects 
-  with over 20 Years of Expertise
 baseurl: ""
 ignore_theme_config: true
 url: "https://wiesion.ch"
@@ -55,19 +59,6 @@ collections:
   posts:
     output: true
     permalink: /blog/:year/:month/:day/:title/
-
-# Defaults
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-      author: "Thomas Wieser"
-  - scope:
-      path: ""
-    values:
-      layout: "default"
 
 # Pagination
 paginate: 5

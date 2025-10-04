@@ -6,6 +6,7 @@
 }
 
 html, body {
+    background-color: var(--background-color);
     height: 100%;
 }
 
@@ -192,6 +193,29 @@ main {
 .main-nav a.active {
     color: var(--highlight-color);
     font-weight: bold;
+}
+
+.main-nav .home-wrapper {
+    display: inline-block;
+    margin: 0 0 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #000000;
+    text-align: center;
+    font-family: "Cambria", serif;
+    font-style: italic;
+    color: var(--foreground-color);
+}
+
+.main-nav .home-wrapper:first-child {
+    margin-left: 0;
+}
+
+.main-nav .home-wrapper a {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    font-family: inherit;
+    font-style: inherit;
 }
 
 .header-content {
@@ -653,6 +677,16 @@ a.tag:hover {
     .main-nav a {
         display: block;
         margin: 0.5rem 0;
+    }
+
+    .main-nav .home-wrapper {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    .main-nav .home-wrapper a {
+        display: inline;
+        margin: 0;
     }
 
     /* Back to top button on mobile */
