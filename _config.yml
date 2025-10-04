@@ -1,39 +1,13 @@
 # Site settings
-title: "wiesion.ch - Software Engineering eastern Switzerland & Zurich area"
-description: "Senior software engineer in Switzerland specializing in backend development, PostgreSQL optimization, and scalable web applications. 20+ years building production systems."
-
-title_de: "wiesion.ch - Software-Entwicklung Ostschweiz"
-description_de: "Erfahrener Freelance-Entwickler in der Ostschweiz: Web-Anwendungen, Datenbank-Optimierung, Full-Stack-Entwicklung. Für KMU und Entwicklungsteams. 20+ Jahre Expertise."
-
-lang: en
-
+title: "Software Engineering in Eastern Switzerland & Zurich - wiesion.ch"
+description: "Senior software engineer specializing in backend development, PostgreSQL optimization, and scalable web applications. 20+ years building production systems."
+author: "Thomas Wieser"
 email: "thomas@wiesion.ch"
 baseurl: ""
-ignore_theme_config: true
 url: "https://wiesion.ch"
-github_username: wiesion
-linkedin_username: wiesion
-
-# SEO settings
-author:
-  name: "Thomas Wieser"
-  email: "thomas@wiesion.ch"
-  linkedin: "wiesion"
-  github: "wiesion"
-
-# Social media
-social:
-  name: "Thomas Wieser"
-  links:
-    - "https://www.linkedin.com/in/wiesion/"
-    - "https://github.com/wiesion"
-    - "https://stackoverflow.com/users/3820185/wiesion"
-
-# SEO tag settings
-logo: "/assets/img/logo.svg"
-twitter:
-  username: wiesion
-  card: summary
+lang: en
+ignore_theme_config: true
+logo: "/assets/img/icon.png"
 
 # Build settings
 markdown: kramdown
@@ -52,17 +26,12 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
-  - jekyll-seo-tag
 
 # Collections
 collections:
   posts:
     output: true
     permalink: /blog/:year/:month/:day/:title/
-
-# Pagination
-paginate: 5
-paginate_path: "/blog/page:num/"
 
 # Exclude from processing
 exclude:

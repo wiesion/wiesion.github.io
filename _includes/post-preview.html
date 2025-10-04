@@ -17,6 +17,7 @@ Parameters:
     <h3><a href="{{ include.post.url }}">{{ include.post.title }}</a></h3>
     <div class="post-meta">
         <time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: "%B %d, %Y" }}</time>{% if include.post.author %} by {{ include.post.author }}{% endif %}
+        {% if include.post.modified_date %}<span class="divider">|</span> <em>Updated: <time datetime="{{ include.post.modified_date | date_to_xmlschema }}">{{ include.post.modified_date | date: "%B %d, %Y" }}</time></em>{% endif %}
         {% if show_reading_time %}
         {% assign words = include.post.content | number_of_words %}
         {% assign reading_time = words | divided_by: 180 %}

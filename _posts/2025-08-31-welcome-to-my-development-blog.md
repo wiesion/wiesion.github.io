@@ -3,7 +3,7 @@ layout: blog
 title: "Welcome to My Development Blog"
 date: 2025-08-31 11:30:00 +0100
 tags: [development, jekyll, docker]
-excerpt: "Welcome to my new blog where I'll share insights about software development, project experiences, and technical discoveries. Plus, learn how this very site was built!"
+excerpt: "Insights on software development, project experiences, and technical discoveries. Learn how this site was built and follow my engineering journey."
 github_repo: "https://github.com/wiesion/wiesion.github.io"
 github_description: "My freelance website and development blog, built with Jekyll"
 ---

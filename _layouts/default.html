@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html lang="{% if page.lang %}{{ page.lang }}{% else %}{{ site.lang }}{% endif %}">
+{%- assign page_title = page.title | default: site.title -%}
+{%- if page.title and page.append_title or layout.append_title -%}
+{%- assign page_title = page.title | append: " - " | append: site.title -%}
+{%- endif -%}
+{%- assign page_description = page.excerpt | default: page.description | default: site.description | strip_html | strip_newlines | truncate: 160 -%}
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign page_image = page.image | default: site.logo | absolute_url -%}
+{%- assign page_author = page.author | default: site.author -%}<!DOCTYPE html>
+<html lang="{{ lang }}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        {% if page.lang == 'de' %}
-        <title>{% if page.title %}{{ page.title }} - {{ site.title_de }}{% else %}{{ site.title_de }}{% endif %}</title>
-        <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description_de }}{% endif %}">
-        {% else %}
-        <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
-        <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-        {% endif %}
+        <title>{{ page_title }}</title>
+        <meta name="description" content="{{ page_description }}">
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
         <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
@@ -24,7 +26,25 @@
         <link rel="stylesheet" href="/assets/css/screen.css" media="screen">
         <link rel="stylesheet" href="/assets/css/print.css" media="print">
         <link rel="stylesheet" href="/assets/css/syntax.css" media="all">
-        {% seo %}
+        <meta property="og:title" content="{{ page_title }}">
+        <meta property="og:description" content="{{ page_description }}">
+        <meta property="og:type" content="{% if page.layout == 'blog' %}article{% else %}website{% endif %}">
+        <meta property="og:url" content="{{ page.url | absolute_url }}">
+        <meta property="og:site_name" content="{{ site.title }}">
+        <meta property="og:image" content="{{ page_image }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="{{ lang }}">
+        <meta name="author" content="{{ page_author }}">
+        <link rel="canonical" href="{{ page.url | absolute_url }}">
+{% if page.layout == 'blog' %}
+    {% if page.date %}
+        <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+    {% endif %}
+    {% if page.modified_date %}
+        <meta property="article:modified_time" content="{{ page.modified_date | date_to_xmlschema }}">
+    {% endif %}
+{% endif %}
         {% feed_meta %}
     </head>
     <body>
@@ -34,7 +54,7 @@
                 <a href="/">
                     <img src="/assets/img/logo.svg" alt="wiesion.ch - Freelance IT Services in Switzerland">
                 </a>
-                <nav class="main-nav"><span class="home-wrapper">Home: <a href="/" title="English Version" {% if page.url == "/" %}class="active"{% endif %}>EN</a> | <a href="/de.html" title="Deutsche Version" {% if page.url == "/de.html" %}class="active"{% endif %}>DE</a></span><a href="/blog/" {% if page.url contains "/blog/" %}class="active"{% endif %}>Blog</a></nav>
+                <nav class="main-nav"><span class="home-wrapper">Home: <a href="/" title="English" {% if page.url == "/" %}class="active"{% endif %}>EN</a> | <a href="/de.html" title="Deutsch" {% if page.url == "/de.html" %}class="active"{% endif %}>DE</a></span><a href="/blog/" {% if page.url contains "/blog/" %}class="active"{% endif %}>Blog</a></nav>
             </div>
         </div>
         <div class="reading-progress"></div>

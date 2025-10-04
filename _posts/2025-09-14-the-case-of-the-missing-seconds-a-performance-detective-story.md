@@ -3,7 +3,8 @@ layout: blog
 title: "The Case of the Missing Seconds: A Performance Detective Story"
 date: 2025-09-14 11:30:00 +0100
 tags: [observability, case-study, database]
-excerpt: "When finger-pointing escalates to litigation threats, data beats blame every time. Here's how I helped three parties resolve a heated dispute by tracking down the real cause of mysterious application performance issues."
+excerpt: "When disputes escalate to litigation threats, data beats blame. How I resolved a heated conflict by tracking down the real cause of performance issues."
+image: "/assets/pic/2025-09/missing_seconds.png"
 ---
 
 Back in 2014, I found myself in the middle of what can only be described as a technical war zone. An IT service provider, a software company, and their mutual client were locked in an escalating dispute that could have been heading for the courtroom. The stakes were high, fingers were pointing in all directions, and everyone was convinced they were right.

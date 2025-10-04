@@ -1,9 +1,11 @@
 ---
 layout: blog
-title: 'Building a Private "Wooden" Cloud, Part 1: The Plan'
+title: "Building a Private 'Wooden' Cloud, Part 1: The Plan"
 date: 2025-09-28 11:30:00 +0100
+modified_date: 2025-10-04 20:20:00 +0100
 tags: [private-cloud, infrastructure, requirements-design]
-excerpt: "Upgrading from consumer NAS to semi-enterprise private cloud: the architecture decisions, hardware selections, and practical trade-offs behind building reliable home infrastructure on a budget."
+excerpt: "Building reliable home infrastructure: upgrading from consumer NAS to semi-enterprise private cloud with smart architecture decisions on a budget."
+image: "/assets/pic/2025-09/nas_wooden_node304.jpg"
 ---
 
 This is the first in a three-part series about upgrading my consumer-grade home NAS into a semi-enterprise private cloud. While this project runs in my living room, the principles behind it mirror the decisions businesses and CTOs face when scaling infrastructure:

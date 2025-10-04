@@ -3,7 +3,8 @@ layout: blog
 title: "uWSGI Emperor Mode: High-Performance Routing and Static File Serving in Production"
 date: 2025-09-07 11:30:00 +0100
 tags: [development, uwsgi, devops]
-excerpt: "While uWSGI may not be the newest application server, its combination of performance, features, and stability makes it an excellent choice for demanding production environments."
+excerpt: "Why uWSGI remains an excellent choice for demanding production environments despite newer alternatives—proven performance, features, and stability."
+image: "/assets/pic/2025-09/uwsgi_emperor.png"
 ---
 
 When deploying Python web applications, the choice of application server can make or break your performance goals. Back in 2022, I had a client with a dilemma: a production site on a tiny server—2 cores and 4GB of RAM—and a strict "no more money" rule for infrastructure. On a box this small, every extra daemon or reverse proxy layer is a meaningful tax. uWSGI's emperor mode turned out to be the perfect fit.
