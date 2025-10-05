@@ -2,36 +2,42 @@
 layout: blog
 title: "Building a Private 'Wooden' Cloud, Part 1: The Plan"
 date: 2025-09-28 11:30:00 +0100
-modified_date: 2025-10-04 20:20:00 +0100
+modified_date: 2025-10-05 15:45:00 +0100
 tags: [private-cloud, infrastructure, requirements-design]
-excerpt: "Building reliable home infrastructure: upgrading from consumer NAS to semi-enterprise private cloud with smart architecture decisions on a budget."
+excerpt: "Infrastructure architecture principles under real constraints: workload isolation, tiered storage, and resource optimization that scale from home lab to enterprise."
 image: "/assets/pic/2025-09/nas_wooden_node304.jpg"
 ---
 
-This is the first in a three-part series about upgrading my consumer-grade home NAS into a semi-enterprise private cloud. While this project runs in my living room, the principles behind it mirror the decisions businesses and CTOs face when scaling infrastructure:
+**Why Build a Private Cloud?**
+
+As someone with a large digital footprint across both professional and personal domains, I need infrastructure that’s **secure, reliable, and efficient** — serving my business operations while meeting my private data needs. While this setup serves my operations, the architecture patterns—network/ingress management, tiered storage, resource allocation, workload isolation—scale directly to multi-rack deployments serving thousands of users.
+
+> **For clarity**: client workloads never touch this system. I deploy them on managed Kubernetes clusters or right-sized VPS instances. This project is strictly my workspace and private cloud; production environments, even for my own projects, run in professional data centers.
+
+This infrastructure handles my development workflow; **CI/CD pipelines** for backend projects, private container registry, Git repositories, and **comprehensive monitoring**. It also manages my personal requirements: encrypted backups, password management, secure chat, and media streaming. As a single freelancer, maintaining separate infrastructure for business and personal use would be wasteful. This build provides enterprise-grade features where needed while staying pragmatic about costs and complexity—guided by these core principles: 
 
 - **Requirements drive architecture** — not the other way around
 - **Constraints breed creativity** — limitations force optimal solutions
 - **Reliability is designed-in** — expensive parts don't replace smart architecture
 - **Pragmatism beats perfection** — knowing which compromises are acceptable
 
-In this post, I'll walk through my reasoning and hardware selection. **Part 2** will cover the physical build process, and **Part 3** will detail the software configuration and performance testing.
+If your business is struggling to **optimize cloud spend, implement robust CI/CD, or design a scalable microservices architecture**, let's talk. My experience balancing budget, performance, and reliability in this project is directly applicable to your **backend and DevOps challenges**. Reach out for a free consultation.
 
-If you're a **business owner** seeking someone who understands both software and infrastructure, or a **CTO** needing experienced external support for your team, these same principles apply at any scale.
+> This is the **first post in a three-part series** about upgrading my consumer-grade home NAS into a semi-enterprise private cloud. Part 2 will cover the physical build process, and Part 3 will detail the software configuration and performance testing.
+> 
+> **Warning**: what follows is a detailed technical deep dive, complete with diagrams showing how hardware and software are architected and interact.
 
 ---
 
 ## Why Upgrade?
 
-My current setup has served me well: a [Topton SoC with an Intel Celeron N5105](https://www.toptonpc.com/product/n5105-nas-motherboard-mini-itx-industrial-17x17cm-soft-routing-intel-i226-2-5gbps-4lan-2m-2-nvme-6sata3-0-hdmi2-0-dp), 32GB RAM, and a mix of HDDs and SSDs running Proxmox VE. It handles basic routing, NAS duties, and services like Plex with transcoding, Nextcloud, and AdGuard without breaking a sweat.
+My current setup has served me well: a [Topton SoC with an 11th Gen Intel Celeron N5105](https://www.toptonpc.com/product/n5105-nas-motherboard-mini-itx-industrial-17x17cm-soft-routing-intel-i226-2-5gbps-4lan-2m-2-nvme-6sata3-0-hdmi2-0-dp), 32GB RAM, and a mix of HDDs and SSDs running Proxmox VE. It handles basic routing, NAS duties, and services like Plex with transcoding, Nextcloud, and AdGuard without breaking a sweat.
 
-However, as I transition back to full-time freelancing—balancing client work with personal projects and continuous learning—I need more than "good enough." I need:
+Transitioning back to full-time freelancing means I require infrastructure with production-grade features—the same features businesses need to mitigate risk and increase delivery speed. Specifically:
 
-- **Compute power** for GitLab CI/CD pipelines and modern observability tools
-- **Security** through IDS/IPS capabilities with Suricata
-- **Reliability** via redundant storage for critical systems
-- **A secure image registry** for container deployments
-- **Data integrity** with ECC-capable memory
+- **Accelerated CI/CD** for faster feature delivery and lower lead time
+- **Designed-in Security** IDS/IPS and a proper IAM solution to protect corporate assets
+- **Data Integrity and Reliability** redundant storage and ECC for system uptime and trust
 - **Professional-grade monitoring** to catch issues before they become problems
 
 ## Design Constraints
@@ -74,10 +80,16 @@ Here's the fun part: I've wrapped my Fractal Design Node 304 Case in white faux-
 ### Core Components (~700 CHF)
 
 **Processing & Memory**
-- [Topton NAS SoC with Intel i5-12450H](https://www.toptonpc.com/product/i5-12450h-6-bay-nas-motherboard-8505-max-6nvme-6sata3-0-1pciex4-4intel-i226-v-2-5g-2ddr5-firewall-pc-mini-itx-mainboard) (4P+4E cores, 45W PL1)
+- [Topton NAS SoC with Intel i5-12450H](https://www.toptonpc.com/product/i5-12450h-6-bay-nas-motherboard-8505-max-6nvme-6sata3-0-1pciex4-4intel-i226-v-2-5g-2ddr5-firewall-pc-mini-itx-mainboard) (4P+4E cores, 45W PL1, 95W PL2)
 - 96GB DDR5-5600 (2× 48GB Crucial SO-DIMMs)
 
-The 12th-gen i5 provides an excellent balance: four performance cores with hyperthreading for demanding tasks, plus four efficiency cores for less demanding services. I'll limit package power to 45W initially (this CPU can burst up to its PL2 of 95W), potentially lowering it to ~30W after testing with Suricata IDS.
+The shift from the Celeron N5105 (Jasper Lake) to the i5-12450H represents a strategic architectural upgrade. Rather than a monolithic low-power design, Alder Lake's hybrid architecture provides specialized compute: four Golden Cove P-cores deliver the single-threaded performance and sustained frequency needed for latency-sensitive VMs (OPNsense) and compute-intensive workloads (GitLab CI/CD), while four Gracemont E-cores handle less demanding services with Skylake-class IPC at a fraction of the power draw.
+
+This hybrid design enables workload segregation—P-cores for latency-critical and burst-heavy tasks, E-cores for steady-state services—without thermal or power penalties. The P-cores can maintain high frequencies when needed (ZFS Scrubbing, OPNsense routing, GitLab executors), while E-cores efficiently handle containerized services that are primarily I/O-bound or operate with generous time budgets. I'll limit package power to 45W initially, potentially lowering it further after real-world testing with Suricata IDS and full service load.
+
+DDR5’s on-die ECC deserves a brief explanation. Unlike traditional ECC (found on server-grade RDIMMs), on-die ECC performs error detection and correction within the memory chip itself. This improves reliability against transient bit errors but doesn’t expose full error reporting or correction capabilities to the memory controller. In other words, it silently improves data integrity without offering system-level ECC logging or end-to-end protection.
+
+For capacity, I chose 2×48GB (96GB total) rather than 2×64GB modules. While 128GB would be technically possible, pairing that much RAM with only 12 threads offers diminishing returns—there simply aren’t enough compute resources to meaningfully leverage that additional memory across my expected workloads. Conversely, 64GB would have been too restrictive given this system’s mixed responsibilities: Proxmox host, ZFS caching, multiple VMs, and a half-dozen LXCs. The 96GB configuration strikes the right balance between headroom and proportional system design.
 
 **Power**
 - APC BX950MI 950VA/520W UPS, provides 15-30 minutes backup
@@ -112,13 +124,13 @@ graph TB
     subgraph Server["Topton N15 SoC"]
         NIC1[NIC 1: WAN]
         NIC2[NIC 2: LAN]
-        NIC3[NIC 3: GitLab VM]
-        NIC4[NIC 4: Host/Services]
+        NIC3[NIC 3: Ingress]
+        NIC4[NIC 4: Host & Services]
         
         subgraph VMs["VMs / LXCs"]
             OPNsense[OPNsense VM]
-            GitLab[GitLab VM]
-            Services[Plex/Nextcloud/Victoria LXCs]
+            Traefik[Traefik LXC]
+            Services[Host & Services]
         end
     end
     
@@ -133,9 +145,9 @@ graph TB
     NIC1 -.-|Passthrough| OPNsense
     OPNsense -.-|Passthrough| NIC2
     NIC2 <--->|2.5 GbE| Switch
-    NIC3 -.-|Passthrough| GitLab
+    NIC3 -.-|Passthrough| Traefik
     NIC3 <--->|2.5 GbE| Switch
-    NIC4 -.-|Shared| Services
+    NIC4 -.-|Bridge| Services
     NIC4 <--->|2.5 GbE| Switch
     
     Switch <--->|2.5 GbE| RemoteSwitch
@@ -143,7 +155,13 @@ graph TB
     PoE <--->|2.5GbE PoE| AP
 ```
 
-The board integrates 4x 2.5GbE ports using Intel i226-V NICs, similar to my previous Topton SoC from 2021. Two ports (WAN/LAN) pass through to the OPNsense VM, one to the GitLab VM, and the fourth is shared between the host and remaining services.
+The board integrates 4x 2.5GbE ports using Intel i226-V NICs, similar to my previous Topton SoC from 2021. The allocation prioritizes network isolation and traffic management:
+
+- **NIC 1 & 2**: Dedicated to OPNsense for WAN/LAN routing (passthrough)
+- **NIC 3**: Dedicated to Traefik LXC for all internet-facing ingress traffic (passthrough)
+- **NIC 4**: Shared internal network for GitLab, application services, and host (bridge)
+
+This topology creates a clean separation between public-facing ingress (NIC 3) and internal service communication (NIC 4). All external requests flow through Traefik's dedicated NIC, while internal traffic—including GitLab CI/CD jobs, Nextcloud background tasks, and inter-service communication—uses the shared internal NIC. This separation simplifies bandwidth accounting, enables traffic-based monitoring, and provides a security boundary between the ingress layer and backend services.
 
 The i226-V and its predecessor i225-V are notoriously buggy. Disabling Energy Efficient Ethernet (EEE) and Active State Power Management (ASPM) usually resolves stability issues, but if problems persist, I'll fall back to VirtIO passthrough instead of hardware passthrough.
 
@@ -212,8 +230,8 @@ The foundation runs Proxmox VE with ZFS managing redundant storage arrays and sc
 graph TB
     subgraph "E-Cores (4 threads)"
         E1[E-Core 8: Observability]
-        E2[E-Core 9-10: Shared Pool<br/>Plex/Nextcloud/Mattermost]
-        E3[E-Core 11: Host Reserved]
+        E2[E-Core 9: Traefik]
+        E3[E-Core 10-11: Shared Pool]
     end
     subgraph "P-Cores (8 threads)"
         P1[P-Core 0-1: OpnSense]
@@ -229,14 +247,18 @@ graph TB
 
 The security stack provides comprehensive network protection, with Suricata IDS monitoring traffic patterns and CrowdSec providing collaborative threat intelligence. This hardened perimeter is particularly crucial for protecting exposed services—Git repositories, the GitLab container registry, Nextcloud file storage, and all data residing on the raidz2 pool. The generous RAM allocation provides headroom for the combined memory footprint of Unbound's DNS cache, pfBlockerNG's GeoIP databases, CrowdSec's decision engine, and Netdata's metrics collection.
 
+**Remote Management Access**
+
+For secure remote administration, OPNsense provides WireGuard VPN access. This allows full access to the home network from anywhere without exposing management interfaces (Proxmox, OPNsense itself, VictoriaMetrics/Logs) to the internet. The VPN creates an encrypted tunnel, making all local services accessible as if physically present on the home network. Proxmox remains accessible only via its local IP address (https://192.168.x.x:8006), whether accessed from the LAN or through the VPN tunnel.
+
 ### GitLab Instance (VM)
 - 4 pinned vCPUs (2 P-cores with 4 threads total)
 - 18GB RAM
 - GitLab CE with 2-3 concurrent executors and integrated container registry
 
-The GitLab instance serves as the development hub, providing Git repository hosting, CI/CD pipelines, and a private container image registry. Both Git repositories and container images are stored on the raidz2 HDD pool—a deliberate choice prioritizing data redundancy and capacity over raw speed.
+The GitLab instance serves as the development hub, providing Git repository hosting, CI/CD pipelines with Runners/Executors, and a private container image registry. Both Git repositories and container images are stored on the raidz2 HDD pool—a deliberate choice prioritizing data redundancy and capacity over raw speed. The executors will run on the raidz1 pool for much faster completion.
 
-While HDDs are slower than SSDs, ZFS's caching architecture largely mitigates this for Git operations: the 2GB ZIL on enterprise SSDs accelerates synchronous writes, ARC (leveraging the host's 48GB RAM) caches frequently-accessed data in memory, and the 970 Pro's 1TB L2ARC provides a second cache tier. Git repositories, with their many small files and frequent read patterns, benefit significantly from this multi-tiered caching strategy. Container images, being larger sequential reads during pulls, perform acceptably even on HDDs.
+While HDDs are slower than SSDs, ZFS's caching architecture largely mitigates this for Git operations: the 2GB ZIL on enterprise SSDs accelerates synchronous writes, ARC (leveraging the host's 42GB RAM) caches frequently-accessed data in memory, and the 970 Pro's 1TB L2ARC provides a second cache tier. Git repositories, with their many small files and frequent read patterns, benefit significantly from this multi-tiered caching strategy. Container images, being larger sequential reads during pulls, perform acceptably even on HDDs.
 
 ### Observability Stack (LXC)
 - 1 vCPU (1 pinned E-core)
@@ -245,32 +267,63 @@ While HDDs are slower than SSDs, ZFS's caching architecture largely mitigates th
 
 Metrics will be retained on the raidz1 array for 4 weeks before truncation, while logs follow a tiered storage approach: hot logs remain on the fast raidz1 array for 30 days, then a cron job migrates them to cold storage on the raidz2 HDD pool. VictoriaLogs' `vlselect` component maintains seamless query access across both hot and cold storage tiers through its UI.
 
+### Ingress and Reverse Proxy (LXC)
+- 1 vCPU (1 pinned E-core)
+- 2GB RAM
+- Dedicated NIC passthrough (NIC 3)
+- Traefik handling all external service exposure
+
+```mermaid
+graph LR
+    TRF[Traefik LXC<br/>NIC 3 - 192.168.x.y]
+    
+    subgraph "Subdomain Routing"
+        TRF -->|git.domain.com| GL[GitLab<br/>NIC 4 - 192.168.x.z]
+        TRF -->|registry.domain.com| GL
+        TRF -->|cloud.domain.com| NC[Nextcloud<br/>NIC 4 - 192.168.x.a]
+        TRF -->|chat.domain.com| MM[Mattermost<br/>NIC 4 - 192.168.x.b]
+        TRF -->|auth.domain.com| ZIT[Zitadel<br/>NIC 4 - 192.168.x.c]
+        TRF -->|vault.domain.com| VW[Vaultwarden<br/>NIC 4 - 192.168.x.d]
+        TRF -->|plex.domain.com| PX[Plex<br/>NIC 4 - 192.168.x.e]
+    end
+```
+
+Traefik runs as an unprivileged LXC container with NIC 3 passed through directly, creating a dedicated network path for all internet-facing traffic. This provides physical separation between the public ingress layer and internal services (which communicate via NIC 4), while avoiding the virtualization overhead of a full VM.
+
+Running Traefik on its own dedicated E-core rather than sharing CPU resources with application services is deliberate—TLS handshakes, circuit breaker logic, and rate limiting are CPU-intensive operations that shouldn't compete with backend services for compute time. When Traefik enforces rate limits or performs cryptographic operations, it has guaranteed CPU availability without impacting Nextcloud file transfers or Plex streaming. The LXC container provides namespace isolation while maintaining near-native network performance.
+
+OPNsense forwards ports 443 (HTTPS) and potentially 80 (HTTP redirect) to Traefik's dedicated NIC, which then routes to backend services on the internal network based on the requested subdomain. This centralizes TLS certificate management and provides a single point for implementing security policies across all exposed services.
+
 ### Application Services (LXCs)
+
+- **Plex** (2 cores, 640 cpuunits, 2GB RAM) with 12th-gen iGPU passthrough for transcoding
+- **Nextcloud** (2 cores, 640 cpuunits, 2GB RAM)
+- **Mattermost** (2 cores, 448 cpuunits, 2GB RAM)
+- **Zitadel** (2 cores, 448 cpuunits, 3GB RAM) for centralized identity and access management
+- **Vaultwarden** (2 cores, 256 cpuunits, 1GB RAM) for password management
 
 ```mermaid
 graph LR
     subgraph ECORES["2 E-cores (shared)"]
-        E1[E-core 9]
-        E2[E-core 10]
+        E1[E-core 10]
+        E2[E-core 11]
     end
     
-    ECORES -->|768 cpuunits| PLEX[Plex]
-    ECORES -->|768 cpuunits| NC[Nextcloud]
-    ECORES -->|512 cpuunits| MM[Mattermost]
+    ECORES -->|640 cpuunits| PLEX[Plex]
+    ECORES -->|640 cpuunits| NC[Nextcloud]
+    ECORES -->|448 cpuunits| MM[Mattermost]
+    ECORES -->|448 cpuunits| ZIT[Zitadel]
+    ECORES -->|256 cpuunits| VW[Vaultwarden]
     
 ```
 
-These three services will share two E-cores using CPU pinning and proportional scheduling:
+All five LXCs are pinned to the same two E-core logical CPUs (E-cores 10-11) via `lxc.cgroup2.cpuset.cpus`, with `cores: 2` set to match the pinned CPU count. The Linux CFS scheduler distributes CPU time proportionally via `cpuunits` weights (640:640:448:448:256). 
 
-- **Plex** (2 cores, 768 cpuunits, 2GB RAM) with 12th-gen iGPU passthrough for transcoding
-- **Nextcloud** (2 cores, 768 cpuunits, 2GB RAM)
-- **Mattermost** (2 cores, 512 cpuunits, 2GB RAM)
-
-All three LXCs will be pinned to the same two E-core logical CPUs via `lxc.cgroup2.cpuset.cpus`, with `cores: 2` set to match the pinned CPU count. The Linux CFS scheduler will distribute CPU time proportionally via `cpuunits` weights (768:768:512, equivalent to 0.75:0.75:0.5 shares). These services support a small user base where potential contention from shared CPU resources won't impact business operations in a meaningful way.
+These services support a small user base where potential contention from shared CPU resources won't impact business operations in any meaningful way.
 
 ### Reserved Resources
 
-This allocation leaves one P-core (two threads), one E-core, and 48GB RAM completely available for the Proxmox host and ZFS—ample headroom for system operations, ZFS scrubbing, and ARC caching.
+This allocation leaves one P-core (two threads) and 42GB RAM completely available for the Proxmox host and ZFS—ample headroom for system operations, ZFS scrubbing, and ARC caching.
 
 ## Trade-offs and Pragmatism
 
@@ -289,10 +342,8 @@ Every design involves compromises. Here are mine:
 - Professional monitoring and security capabilities
 - Power efficiency enabling 24/7 operation
 
-## Current Status
+## From Theory to Practice
 
-I've received most components, but due to a shipping issue with the SoC and me travelling for a few weeks, the final build is now projected for late November.
+The resource allocations described here are initial targets, not final configurations. VictoriaMetrics will collect metrics from Prometheus exporters across all services, supplementing Proxmox's built-in statistics with application-level insights. This observability stack enables data-driven optimization over time: if GitLab's CI/CD pipelines consistently underutilize their allocated P-cores, resources can be redistributed; if Nextcloud's preview generation creates unexpected CPU contention in the shared E-core pool, cpuunits can be rebalanced. The combination of Proxmox metrics (CPU steal time, memory pressure, I/O wait) and service-specific metrics (request latency, queue depths, cache hit rates) provides the visibility needed to tune this system from theoretical design into an optimized production environment.
 
-Part 2 will cover the physical build process and hardware integration. Part 3 will detail the software configuration and final performance testing.
-
-**Are you facing similar challenges balancing high performance, efficiency, and budget in your own infrastructure? Interested in discussing your development needs?** *Feel free to reach out.*
+This hands-on infrastructure build informs my backend development approach. I don't just write code; I design systems that are optimized for the underlying hardware and network topology. This means the backend solutions I deliver are inherently more performant, easier to scale, and cheaper to run in your cloud or data center.
