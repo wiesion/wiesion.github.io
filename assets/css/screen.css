@@ -6,7 +6,6 @@
 }
 
 html, body {
-    background-color: var(--background-color);
     height: 100%;
 }
 
@@ -455,6 +454,34 @@ main {
 img.content-img {
     width: 100%;
     margin: 1em 0;
+}
+
+/* Table Styles */
+.post-content table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5rem 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 1px solid rgba(86, 203, 249, 0.2);
+}
+
+th {
+    background-color: rgba(86, 203, 249, 0.1);
+}
+
+tr:nth-child(even) {
+    background-color: rgba(86, 203, 249, 0.1);
 }
 
 /* Reading Progress Bar */

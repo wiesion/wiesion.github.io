@@ -177,15 +177,17 @@ table {
 }
 
 th, td {
-    border: 1pt solid #f0f8ff;
-    padding: 0.3em;
+    border: 1pt solid rgba(86, 203, 249, 0.2);
+    padding: 0.5em 0.75em;
     text-align: left;
-    font-size: 10pt;
 }
 
 th {
-    background: #f0f8ff;
-    font-weight: bold;
+    background-color: rgba(86, 203, 249, 0.1);
+}
+
+tr:nth-child(even) {
+    background-color: rgba(86, 203, 249, 0.1);
 }
 
 /* Article structure */
