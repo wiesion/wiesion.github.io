@@ -116,6 +116,20 @@ graph LR
 
 > Conceptually, this pattern turns your existing relational database into a lightweight queue manager. Each worker claims a slice of work atomically using row-level locks, processes it safely, and releases it — all without introducing new infrastructure. It’s the simplest reliable queue you can deploy today.
 
+### This Is a Proven Production Pattern
+
+This approach leverages database row-level locking exactly as designed—`SKIP LOCKED` and `READPAST` were specifically created to enable non-blocking queue semantics. It's not a workaround or clever hack; it's a documented feature used by production systems processing millions of jobs daily.
+
+Multiple established frameworks implement this exact pattern:
+
+- **[Hangfire](https://github.com/HangfireIO/Hangfire)** (.NET) - Used by thousands of companies
+- **[Oban](https://github.com/oban-bg/oban)** (Elixir) - Powers high-throughput Elixir applications
+- **[pg-boss](https://github.com/timgit/pg-boss)** (Node.js) - PostgreSQL-backed job queue
+- **[Procrastinate](https://github.com/procrastinate-org/procrastinate)** (Python) - Async task processing
+- **[queue_classic](https://github.com/QueueClassic/queue_classic)** (Ruby) - Battle-tested since 2011
+
+If you're concerned about maintainability or relying on obscure database features, these frameworks demonstrate this is a well-understood, widely-adopted pattern with years of production validation.
+
 ### Database locking differences
 
 Each database implements row-level locking differently, which affects how this pattern performs:
