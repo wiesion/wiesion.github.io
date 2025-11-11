@@ -1,9 +1,10 @@
 {%- assign page_title = page.title | default: site.title -%}
 {%- if page.title and page.append_title or layout.append_title -%}
-{%- assign page_title = page.title | append: " - " | append: site.title -%}
+{%- assign site_name = page.site_name | default: layout.site_name | default: site.title -%}
+{%- assign page_title = page.title | append: " - " | append: site_name -%}
 {%- endif -%}
 {%- assign page_description = page.excerpt | default: page.description | default: site.description | strip_html | strip_newlines | truncate: 160 -%}
-{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang = page.lang | default: site.lang | default: "de" -%}
 {%- assign page_image = page.image | default: site.logo | absolute_url -%}
 {%- assign page_author = page.author | default: site.author -%}<!DOCTYPE html>
 <html lang="{{ lang }}">
@@ -54,7 +55,7 @@
                 <a href="/">
                     <img src="/assets/img/logo.svg" alt="wiesion.ch - Freelance IT Services in Switzerland">
                 </a>
-                <nav class="main-nav"><span class="home-wrapper">Home: <a href="/" title="English" {% if page.url == "/" %}class="active"{% endif %}>EN</a> | <a href="/de.html" title="Deutsch" {% if page.url == "/de.html" %}class="active"{% endif %}>DE</a></span><a href="/blog/" {% if page.url contains "/blog/" %}class="active"{% endif %}>Blog</a></nav>
+                <nav class="main-nav"><span class="home-wrapper">Home: <a href="/" title="Deutsch" {% if page.url == "/" %}class="active"{% endif %}>DE</a> | <a href="/en" title="English" {% if page.url == "/en.html" %}class="active"{% endif %}>EN</a></span><a href="/blog/" {% if page.url contains "/blog/" %}class="active"{% endif %}>Blog</a></nav>
             </div>
         </div>
         <div class="reading-progress"></div>
@@ -63,7 +64,7 @@
         </main>
     </div>
     <div class="site-footer">
-        <small>&copy;<script>document.write(new Date().getFullYear())</script> wiesion.ch | Hosted on <a href="https://github.com/wiesion/wiesion.github.io" target="_blank">GitHub</a> | Cooked with <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> </small>
+        <small>&copy;<script>document.write(new Date().getFullYear())</script> wiesion.ch | <a href="/rechtliches">Rechtliches</a> | <a href="/legal">Legal</a> | Hosted on <a href="https://github.com/wiesion/wiesion.github.io" target="_blank">GitHub</a> | Cooked with <a href="https://jekyllrb.com/" target="_blank">Jekyll</a></small>
     </div>
     </body>
 </html>

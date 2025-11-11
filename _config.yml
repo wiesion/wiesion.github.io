@@ -1,11 +1,11 @@
 # Site settings
-title: "Software Engineering in Eastern Switzerland & Zurich - wiesion.ch"
-description: "Senior software engineer specializing in backend development, PostgreSQL optimization, and scalable web applications. 20+ years building production systems."
+title: "Software-Entwicklung Ostschweiz & Zürich"
+description: "Erfahrener Freelance-Entwickler: Web-Anwendungen, Datenbank-Optimierung, Full-Stack-Entwicklung. Für KMU und Entwicklungsteams. 20+ Jahre Expertise."
 author: "Thomas Wieser"
 email: "thomas@wiesion.ch"
 baseurl: ""
 url: "https://wiesion.ch"
-lang: en
+lang: de
 ignore_theme_config: true
 logo: "/assets/img/icon.png"
 

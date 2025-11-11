@@ -2,6 +2,8 @@
 layout: default
 content_type: single_column
 append_title: yes
+lang: en
+site_name: "Blog - Software Engineering Eastern Switzerland & Zurich"
 ---
 
 <script type="application/ld+json">
@@ -42,7 +44,7 @@ append_title: yes
 </script>
 
 {% assign words = content | number_of_words %}
-{% assign reading_time = words | divided_by: 180 %}
+{% assign reading_time = words | divided_by: 225 %}
 {% if reading_time == 0 %}
 {% assign reading_time = 1 %}
 {% endif %}
@@ -102,5 +104,5 @@ append_title: yes
 
 <button class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@11.11.0/dist/mermaid.min.js"></script>
 <script src="/assets/js/blog.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.11.0/dist/mermaid.min.js"></script>

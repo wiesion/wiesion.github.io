@@ -52,10 +52,6 @@ a:hover {
     text-decoration-color: var(--highlight-color);
 }
 
-p {
-    margin-bottom: 1.5rem;
-}
-
 ul, ol {
     margin-bottom: 1.5rem;
     padding-left: 2rem;

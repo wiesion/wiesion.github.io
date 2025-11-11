@@ -1,0 +1,88 @@
+---
+layout: two_column
+append_title: no
+lang: en
+title: "Software Engineering Eastern Switzerland & Zurich"
+description: "Senior software engineer specializing in backend development, PostgreSQL optimization, and scalable web applications. 20+ years building production systems."
+---
+
+<section class="left-section">
+    <h1>Software Development & Performance Engineering</h1>
+    <p>
+        With over 20 years of experience, I help Swiss companies and
+        engineering teams build performant, maintainable software solutions.
+    </p>
+
+    <h2>For Businesses</h2>
+    <p>
+        Need a custom web application, or is your existing software grinding
+        to a halt? I deliver straightforward, professional solutions—from
+        requirements gathering to production deployment. You focus on your
+        business; I handle the servers, databases, and pipelines.
+    </p>
+
+    <h2>For Engineering Teams & CTOs</h2>
+    <p>
+        Looking for senior-level reinforcement on complex backend projects,
+        database optimization, or infrastructure automation? I work independently,
+        bring deep technical expertise, and ship clean, maintainable code with
+        minimal ramp-up time.
+    </p>
+
+    <h2>Recent Blog Posts</h2>
+    <div class="post-list">
+        {% for post in site.posts limit:3 %}
+        {% include post-preview.html post=post show_tags=false show_excerpt=false show_reading_time=false %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="right-section">
+    <h1>Connect</h1>
+    <div class="connect-callout">
+        <img class="portrait" src="/assets/img/portrait.jpg" alt="Portrait photograph">
+        <div class="clearfix-mobile"></div>
+        <h3>Thomas Wieser</h3>
+        <span id="jsonly" style="display: none;">
+            <a href="#" onclick="window.open('tel:' + this.innerText.replace(/ /g, '')); return false;"><script>document.write("&#43;4&#49;")</script> 76 <script>document.write("&#x34;1&#57;")</script> 12 <script>document.write("&#x33;&#x31;")</script></a><br>
+            <a href="#" onclick="alert('mailto:' + this.innerText); return false;"><script>document.write("&#x74;&#104;&#x6F;")</script>mas<script>document.write("&commat;&#119;&#x69;&#101;")</script>sion<script>document.write("&#x2E;&#99;&#x68;")</script></a><br>
+        </span>
+        <script>document.getElementById("jsonly").style.display = "inherit";</script>
+        <noscript style="color: orange; display: block;">
+            Please activate JavaScript to be able to see phone number and email address.
+        </noscript>
+        <small>
+            Fluent in German, Italian & English<br>
+            Eastern Switzerland & Zurich
+        </small>
+        <p>
+            <a rel="external" href="https://www.linkedin.com/in/wiesion/">LinkedIn</a> |
+            <a rel="external" href="https://github.com/wiesion">GitHub</a> |
+            <a rel="external" href="https://stackoverflow.com/users/3820185/wiesion">Stackoverflow</a>
+        </p>
+        <div class="clearfix"></div>
+    </div>
+
+    <h1>Services</h1>
+    <h2>Data & Backend Expertise</h2>
+    <ul>
+        <li>PostgreSQL: performance tuning, schema design, ETL/ELT</li>
+        <li>Performance optimization: caching, messaging, scaling</li>
+        <li>Containerization: Docker, Kubernetes, CI/CD</li>
+        <li>Observability: logging, metrics, tracing</li>
+    </ul>
+
+    <h2>Full-Stack Development</h2>
+    <ul>
+        <li>Python (Django, Flask, FastAPI), Ruby (Rails, Sinatra)</li>
+        <li>Responsive frontend (JavaScript, HTML, CSS)</li>
+        <li>Git workflows, GitHub Actions, GitLab CI/CD</li>
+    </ul>
+
+    <h2>Additional Services</h2>
+    <ul>
+        <li>Automated testing & quality assurance</li>
+        <li>Workflow optimization & process automation</li>
+        <li>Redmine: installation, customization, plugin development</li>
+    </ul>
+</section>
