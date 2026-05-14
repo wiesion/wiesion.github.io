@@ -27,7 +27,6 @@
 }
 
 /* Solaris Dark Syntax Highlighting */
-.highlight { background-color: #002b36; }
 .highlight .c { color: #586e75; font-style: italic; } /* Comment */
 .highlight .err { color: #dc322f; } /* Error */
 .highlight .g { color: #839496; } /* Generic */
